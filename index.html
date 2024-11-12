@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Redux Starter</title>
+        <script src="https://unpkg.com/redux@4.0.5/dist/redux.js"></script>
+    </head>
+    <body>
+
+
+        <h2>Simple Counter</h2>
+        <br/>
+        <hr/>
+        <div>Count: <span id="value">0</span></div>
+        <br/>
+        <div>
+            <button id="increment">+</button>
+            <button id="decrement">-</button>
+            <button id="incrementIfOdd">Odd +</button>
+            <button id="incrementAsync">Async +</button>
+        </div>
+        <script>
+            const myReducer = (state = 0, action) => {
+                switch(action.type) {
+                    case "INC":
+                        return state + 1;
+                    case "DEC":
+                        return state - 1;
+                    default:
+                        return state;
+                }
+            };
+            const store = Redux.createStore(myReducer);
+
+            document.getElementById('increment').addEventListener('click', () => {
+                store.dispatch({type: "INC"});
+            });
+
+            document.getElementById('decrement').addEventListener('click', () => {
+                store.dispatch({type: 'DEC'});
+            });
+
+            document.getElementById('incrementIfOdd').addEventListener('click', () => {
+                if((store.getState() % 2) !== 0 )
+                    store.dispatch({type: 'INC'});
+            });
+
+            document.getElementById('incrementAsync').addEventListener('click', () => {
+                setTimeout(() => {
+                    store.dispatch({type: 'INC'});
+                }, 2000);
+
+            });
+
+            const valueEL = document.getElementById('value');
+            store.subscribe(() => {
+                valueEL.innerHTML = store.getState().toString();
+            });
+        </script>
+
+    </body>
+</html>
